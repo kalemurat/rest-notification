@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+
+  mongo:
+    image: mongo:7.0.4
+    container_name: rest-notification-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: restNotification
+    volumes:
+      - rest-notification:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - notification
+
+  mongo-express:
+    image: mongo-express:1.0.2-20
+    container_name: dia-mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017
+      ME_CONFIG_BASICAUTH_USERNAME: root
+      ME_CONFIG_BASICAUTH_PASSWORD: root
+    depends_on:
+      - mongo
+    networks:
+      - notification
+
+  rest-notification-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rest-notification-app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/restNotification
+    depends_on:
+      - mongo
+    networks:
+      - notification
+
+volumes:
+  rest-notification:
+
+networks:
+  notification:
+    driver: bridge
