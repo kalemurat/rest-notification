@@ -1,5 +1,5 @@
 import mongoose, { Document } from 'mongoose';
-import moment from 'moment-timezone';
+import MomentDate from '../libs/momentDate';
 
 const scheduleSchema = new mongoose.Schema({
   description: { type: String, required: true },
@@ -10,17 +10,17 @@ const scheduleSchema = new mongoose.Schema({
 });
 
 scheduleSchema.pre('save', function (next) {
-  const currentDate = moment().tz('Europe/Istanbul').toDate();
+  const currentDate = MomentDate.getDate() as any;
   this.updated_at = currentDate;
   if (!this.created_at) {
     this.created_at = currentDate;
   }
   next();
 });
-//TODO, moment date wrong
+
 scheduleSchema.pre('updateOne', function (next) {
   const data: any = this.getUpdate();
-  data.updated_at = moment().tz('Europe/Istanbul').toDate();
+  data.updated_at = MomentDate.getDate() as any;
   next();
 });
 
