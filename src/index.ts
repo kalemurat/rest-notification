@@ -2,8 +2,6 @@ import express from 'express';
 import MongoDb from './modules/db';
 import ScheduleRoute from './routes/scheduleRoute';
 
-process.env.TZ = 'Europe/Istanbul';
-
 const app = express();
 const port = 3000;
 app.use(express.json());
