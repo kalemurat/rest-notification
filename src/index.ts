@@ -1,6 +1,6 @@
 import express from 'express';
 import MongoDb from './modules/db';
-import CronsRoute from './routes/cronsRoute';
+import ScheduleRoute from './routes/scheduleRoute';
 
 process.env.TZ = 'Europe/Istanbul';
 
@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 new MongoDb();
 
-app.use('/crons', CronsRoute);
+app.use('/schedule', ScheduleRoute);
 app.listen(port, () => {
   console.log(`Server http://localhost:${port} running`);
 });

@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import moment from 'moment-timezone';
 
-const cronSchema = new mongoose.Schema({
+const scheduleSchema = new mongoose.Schema({
   description: { type: String, required: true },
   cronExpression: { type: String, required: true },
   created_at: { type: Date },
@@ -9,7 +9,7 @@ const cronSchema = new mongoose.Schema({
   special_column: { type: String, required: true }
 });
 
-cronSchema.pre('save', function (next) {
+scheduleSchema.pre('save', function (next) {
   const currentDate = moment().tz('Europe/Istanbul').toDate();
   this.updated_at = currentDate;
   if (!this.created_at) {
@@ -18,13 +18,13 @@ cronSchema.pre('save', function (next) {
   next();
 });
 //TODO, moment date wrong
-cronSchema.pre('updateOne', function (next) {
+scheduleSchema.pre('updateOne', function (next) {
   const data: any = this.getUpdate();
   data.updated_at = moment().tz('Europe/Istanbul').toDate();
   next();
 });
 
-export interface ICron extends Document {
+export interface ISchedule extends Document {
   description: string;
   cronExpression: string;
   created_at: Date;
@@ -32,6 +32,6 @@ export interface ICron extends Document {
   special_column: string;
 }
 
-const cronsModel = mongoose.model<ICron>('Crons', cronSchema);
+const scheduleModel = mongoose.model<ISchedule>('Schedule', scheduleSchema);
 
-export default cronsModel;
+export default scheduleModel;
