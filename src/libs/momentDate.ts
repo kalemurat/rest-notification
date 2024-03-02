@@ -1,8 +1,9 @@
 import moment from 'moment-timezone';
+import TimeZone from './enums/timezone.enum';
 
 class MomentDate {
   getDate(): moment.Moment {
-    return moment().tz('Europe/Istanbul').utc(true);
+    return moment().tz(TimeZone.EUROPE_ISTANBUL).utc(true);
   }
 }
 
