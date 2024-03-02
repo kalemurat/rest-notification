@@ -18,7 +18,7 @@ services:
 
   mongo-express:
     image: mongo-express:1.0.2-20
-    container_name: dia-mongo-express
+    container_name: rest-mongo-express
     ports:
       - "8081:8081"
     environment:
